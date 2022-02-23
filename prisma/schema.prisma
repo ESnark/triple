@@ -1,0 +1,31 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model pointLog {
+  id       Int    @id @default(autoincrement())
+  reviewId String @db.VarChar(36)
+  userId   String @db.VarChar(36)
+  placeId  String @db.VarChar(36)
+  pContent Int    @db.SmallInt
+  pPhoto   Int    @db.SmallInt
+  pFirst   Int    @db.SmallInt
+
+  @@index([userId], map: "userId")
+}
+
+model review {
+  reviewId  String   @id @db.VarChar(36)
+  content   Boolean
+  photos    Boolean
+  userId    String   @db.VarChar(36)
+  placeId   String   @db.VarChar(36)
+  createdAt DateTime @default(now()) @db.Timestamp(3)
+
+  @@index([placeId, createdAt], map: "placeId")
+}
